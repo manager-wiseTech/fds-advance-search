@@ -4,7 +4,7 @@
 Plugin Name: FDS Advance Search
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This is advance search plugin.
-Version: 1.0.4
+Version: 1.0.5
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
@@ -66,7 +66,15 @@ function fds_set_first_post_image($post) {
 function fds_form_creation($atts){
 	$content = NULL;
 $content .='<style type="text/css">
-
+.mom-select{
+    display:none;
+    }
+    .dropdown-menu .inner{
+    	width:auto;
+    }
+    .bs-searchbox .form-control{
+    width:-webkit-fill-available;
+    }
 	</style>';	
 	$default_key = NULL;
 	if (isset($_GET['s'])) {
@@ -78,8 +86,8 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 		<div><label class="advsrch_lbl" style="font-size:20px;">Enter Keyword:</label></div>
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$default_key.'"></div>
 	</div>
-	<div style="margin-top:10px">		    
-		      <select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-width="auto" data-live-search="true">';
+	<div class="mt-2">		    
+		      <select style="display:none;" class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
 		    $args = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
@@ -108,8 +116,8 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 	$content .=' </select>
 			
 	</div>
-	<div style="float:left;width:100%;text-align:center;">
-		<input type="submit" class="btn btn-primary mt-5" name="search" value="Search">
+	<div class="d-flex justify-content-center">
+		<input type="submit" class="btn btn-primary mt-3" name="search" value="Search">
 	</div>
 </form></div>';
 $content .= "<div style='clear:both'></div>";
@@ -146,6 +154,15 @@ function fds_result_generator(){
 	$data="";
 	$filter_form = '';
 	$filter_form .= '<style type="text/css">
+	.mom-select{
+    display:none;
+    }
+    .dropdown-menu .inner{
+    	width:auto;
+    }
+    .bs-searchbox .form-control{
+    width:-webkit-fill-available;
+    }
 	</style>
 	<div>
 	<form method="get" target="_blank" class="advsrch_form" action="'. get_option('fds_search_option') .'">
@@ -153,8 +170,8 @@ function fds_result_generator(){
 		<div><label class="advsrch_lbl" style="font-size:20px;">Enter Keyword: </label></div>
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$keyword.'"></div>
 	</div>
-	<div style="margin-top:10px">
-		<select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-width="auto" data-live-search="true">';
+	<div class="col-sm-12 mt-2">
+		<select style="display:none;" class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
 	$args1 = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
@@ -196,8 +213,8 @@ function fds_result_generator(){
 		  
 			
 	</div>
-	<div style="float:left;width:100%;text-align:center;">
-		<input type="submit" class="btn btn-primary mt-5" name="search" value="Search">
+	<div class="d-flex justify-content-center">
+		<input type="submit" class="btn btn-primary mt-3" name="search" value="Search">
 	</div>
 </form></div>';
 $filter_form .= "<div style='clear:both'></div>";
