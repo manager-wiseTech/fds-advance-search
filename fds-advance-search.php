@@ -4,7 +4,7 @@
 Plugin Name: FDS Advance Search
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This is advance search plugin.
-Version: 1.0.3
+Version: 1.0.4
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
@@ -79,7 +79,7 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$default_key.'"></div>
 	</div>
 	<div style="margin-top:10px">		    
-		      <select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-live-search="true">';
+		      <select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-width="auto" data-live-search="true">';
 		    $args = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
@@ -109,7 +109,7 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 			
 	</div>
 	<div style="float:left;width:100%;text-align:center;">
-		<input type="submit" style="font-size:18px;border-radius:5px; padding: 0px 50px;" name="search" value="Search">
+		<input type="submit" class="btn btn-primary mt-5" name="search" value="Search">
 	</div>
 </form></div>';
 $content .= "<div style='clear:both'></div>";
@@ -140,7 +140,7 @@ function fds_result_generator(){
 	$args = array(
 		's'=>$keyword,
 		'category_name' => $cat,
-		'posts_per_page' => -1,
+		'posts_per_page' => 4,
 		'post_type' => 'post'
 	);
 	$data="";
@@ -154,15 +154,15 @@ function fds_result_generator(){
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$keyword.'"></div>
 	</div>
 	<div style="margin-top:10px">
-		<select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-live-search="true">';
-	$args = array(
+		<select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-width="auto" data-live-search="true">';
+	$args1 = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
 			    'taxonomy' => 'category',
 			    'hide_empty' => 0,
 			    'parent' => 0,
 			    );
-	$categories = get_categories($args);  
+	$categories = get_categories($args1);  
 	$filter_form .=	'';
 		    	foreach($categories as $category) {
 		    	if ($category->name == "Uncategorized") {
@@ -197,7 +197,7 @@ function fds_result_generator(){
 			
 	</div>
 	<div style="float:left;width:100%;text-align:center;">
-		<input type="submit" style="font-size:18px;border-radius:5px; padding: 0px 50px; " name="search" value="Search">
+		<input type="submit" class="btn btn-primary mt-5" name="search" value="Search">
 	</div>
 </form></div>';
 $filter_form .= "<div style='clear:both'></div>";
@@ -214,6 +214,10 @@ $filter_form .= '<script type="text/javascript">
 
 
 		$posts = $query->posts;
+		if (!empty($posts)) {
+			$data = '<div class="container">';
+		}
+		
 		foreach($posts as $post) {
 		  $data .= '<div class="bp-vertical-share" style="width:100%">
 								<div class="bp-entry">
@@ -247,8 +251,45 @@ $filter_form .= '<script type="text/javascript">
 								</div> 
 								</div> 
 								<div class="clear"></div>
+								
+
+				
+
+
+
+
+
+
+
+
+
+
+
+
+								
 								</div>';	
 		}
+		if (!empty($posts)) {
+			$data .= '<div class="pagination"><!--start of pagination-->
+  							'. paginate_links( array(
+            'base'         => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
+            'total'        => $query->max_num_pages,
+            'current'      => max( 1, get_query_var( 'paged' ) ),
+            'format'       => '?paged=%#%',
+            'show_all'     => false,
+            'type'         => 'plain',
+            'end_size'     => 2,
+            'mid_size'     => 1,
+            'prev_next'    => true,
+            'prev_text'    => sprintf( '<i></i> %1$s', __( 'Newer Posts', 'text-domain' ) ),
+            'next_text'    => sprintf( '%1$s <i></i>', __( 'Older Posts', 'text-domain' ) ),
+            'add_args'     => false,
+            'add_fragment' => '',
+        ) ).'	  		
+        				</div><!--end-of-pagination-->';
+			$data .= '</div><!--end-of-container-->';
+		}
+		
 
 		if (empty($data)) {
 			$data ="<h3>No Data Found.</h3>";
