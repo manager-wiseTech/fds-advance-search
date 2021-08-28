@@ -4,7 +4,7 @@
 Plugin Name: FDS Advance Search
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This is advance search plugin.
-Version: 1.0.6
+Version: 1.0.7
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
@@ -157,7 +157,7 @@ function fds_result_generator(){
 	$args = array(
 		's'=>$keyword,
 		'category_name' => $cat,
-		'posts_per_page' => 4,
+		'posts_per_page' => 10,
 		'paged' => $paged,
 		'post_type' => 'post'
 	);
@@ -180,7 +180,7 @@ function fds_result_generator(){
 		<div><label class="advsrch_lbl" style="font-size:20px;">Enter Keyword: </label></div>
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$keyword.'"></div>
 	</div>
-	<div class="col-sm-12 mt-2">
+	<div class="mt-2">
 		<select style="display:none;" class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
 	$args1 = array(
 			    'orderby' => 'name',
@@ -202,7 +202,7 @@ function fds_result_generator(){
 				  }
 				else
 				  {
-				  	$checked = "";
+				  	$checked = " ";
 				  }
 		$filter_form .=   '
 		      		       <option '.$checked.' value="'.$category->name.'">'.$category->name.'</option>';
@@ -210,14 +210,22 @@ function fds_result_generator(){
 										    array( 'parent' => $category->cat_ID )
 										);
 		      		    if ($child_cat) {
-		      		    	
 		      		    	foreach($child_cat as $cc){
+		      		    		if (in_array($cc->name, $selected_cat))
+											  {
+											  	$checked = "selected";
+											  }
+											else
+											  {
+											  	$checked = " ";
+											  }
 		$filter_form.=		'<option '.$checked.' value="'.$cc->name.'">'.$cc->name.'</option>'; 
 		      		    	
-		      		    	    
+		      		    	    $checked=" ";
 		      		    	}
 		      		    	    
 		      		    	}
+		      		  $checked=" ";
 		      		    } 
 	$filter_form .=' </select>
 		  
