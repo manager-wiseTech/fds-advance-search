@@ -4,7 +4,7 @@
 Plugin Name: FDS Advance Search
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This is advance search plugin.
-Version: 1.0.5
+Version: 1.0.6
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
@@ -75,6 +75,12 @@ $content .='<style type="text/css">
     .bs-searchbox .form-control{
     width:-webkit-fill-available;
     }
+    /* This is pagination styling*/
+    .active{
+    	background-color: #0d6efd;
+    	color: white;
+    }
+
 	</style>';	
 	$default_key = NULL;
 	if (isset($_GET['s'])) {
@@ -124,6 +130,9 @@ $content .= "<div style='clear:both'></div>";
 $content .= '<script type="text/javascript">
 (function($) {
 					$(".fds-select").selectpicker();
+
+					$(".page-numbers").addClass("page-link");
+					$(".current").addClass("active");
 			})( jQuery );
 			
 </script>';
@@ -144,11 +153,12 @@ function fds_result_generator(){
 			 $cat = ltrim($cat);
 			}	
 	}
-	
+	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
 	$args = array(
 		's'=>$keyword,
 		'category_name' => $cat,
 		'posts_per_page' => 4,
+		'paged' => $paged,
 		'post_type' => 'post'
 	);
 	$data="";
@@ -287,7 +297,9 @@ $filter_form .= '<script type="text/javascript">
 								</div>';	
 		}
 		if (!empty($posts)) {
-			$data .= '<div class="pagination"><!--start of pagination-->
+			$data .= '<div>
+			<nav aria-label="Page navigation example">
+			<ul class="pagination"><!--start of pagination-->
   							'. paginate_links( array(
             'base'         => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
             'total'        => $query->max_num_pages,
@@ -298,11 +310,13 @@ $filter_form .= '<script type="text/javascript">
             'end_size'     => 2,
             'mid_size'     => 1,
             'prev_next'    => true,
-            'prev_text'    => sprintf( '<i></i> %1$s', __( 'Newer Posts', 'text-domain' ) ),
-            'next_text'    => sprintf( '%1$s <i></i>', __( 'Older Posts', 'text-domain' ) ),
+            'prev_text'    => sprintf( '<i></i> %1$s', __( 'Previous', 'text-domain' ) ),
+            'next_text'    => sprintf( '%1$s <i></i>', __( 'Next', 'text-domain' ) ),
             'add_args'     => false,
             'add_fragment' => '',
         ) ).'	  		
+        				</ul>
+        				</nav>
         				</div><!--end-of-pagination-->';
 			$data .= '</div><!--end-of-container-->';
 		}
