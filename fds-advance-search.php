@@ -4,7 +4,7 @@
 Plugin Name: FDS Advance Search
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This is advance search plugin.
-Version: 1.0.2
+Version: 1.0.3
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
@@ -29,13 +29,13 @@ defined( 'ABSPATH' ) or die( 'Hey, what are you doing here? You silly human!' );
 //adding styles and sript of select2
 add_action('wp_enqueue_scripts', 'callback_for_setting_up_scripts');
 function callback_for_setting_up_scripts() {
-    wp_register_style( 'selectcss', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css' );
-    wp_register_style( 'bootstrapcss', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css' );
-    wp_enqueue_style( 'selectcss' );
+    wp_register_style( 'selectcss', 'https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css' );
+    wp_register_style( 'bootstrapcss', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css' );
     wp_enqueue_style( 'bootstrapcss' );
-
-    wp_enqueue_script( 'selectjs', 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array( 'jquery' ) );
-    wp_enqueue_script( 'bootstrapjs', 'https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js', array( 'jquery' ) );
+    wp_enqueue_style( 'selectcss' );
+    wp_enqueue_script( 'bootstrapjs', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js', array( 'jquery' ) );
+    wp_enqueue_script( 'selectjs', 'https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js', array( 'jquery' ) );
+    
 }
 add_action("admin_menu","fds_advance_search");
 function fds_advance_search()
@@ -64,23 +64,11 @@ function fds_set_first_post_image($post) {
   return $first_img;
 }
 function fds_form_creation($atts){
+	$content = NULL;
 $content .='<style type="text/css">
-button.select2-selection__clear{
-	background-color:transparent !important;
-}
-.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
-  padding-left: 25px;
-}
-.select2-container .select2-search--inline {
-    margin-top: -35px;
-}
-.select2-container .select2-search--inline .select2-search__field{
-	height:auto;
-}
-footer .mom-select select{
-margin-left:0px;
-}
+
 	</style>';	
+	$default_key = NULL;
 	if (isset($_GET['s'])) {
 		$default_key = $_GET['s'];
 	}
@@ -91,8 +79,7 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$default_key.'"></div>
 	</div>
 	<div style="margin-top:10px">		    
-		      <select class="fds-select" name="categories[]" multiple="multiple">
-		        <option></option>';
+		      <select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-live-search="true">';
 		    $args = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
@@ -106,14 +93,14 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 		    	if ($category->name == "Uncategorized") {
 		    		continue;
 		    	}
-		$content .=   '<option value="'.$category->name.'">'.$category->name.'</option>';
+		$content .=   '<option data-tokens="'.$category->name.'" value="'.$category->name.'">'.$category->name.'</option>';
 		      		    $child_cat = get_categories(
 										    array( 'parent' => $category->cat_ID )
 										);
 		      		    if ($child_cat) {
 		      		    	
 		      		    	foreach($child_cat as $cat)
-		$content.=		'<option value="'.$cat->name.'">'.$cat->name.'></option>'; 
+		$content.=		'<option data-tokens="'.$cat->name.'" value="'.$cat->name.'">'.$cat->name.'></option>'; 
 		      		    }
 		     		    
 
@@ -128,11 +115,7 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 $content .= "<div style='clear:both'></div>";
 $content .= '<script type="text/javascript">
 (function($) {
-					$(".fds-select").select2({
-    placeholder: "Select Categories",
-    allowClear: true,
-    width: "resolve"
-});
+					$(".fds-select").selectpicker();
 			})( jQuery );
 			
 </script>';
@@ -145,15 +128,13 @@ function fds_result_generator(){
 	$keyword = $_GET['srchbox'];
 	if (isset($_GET['categories'])) {
 	$categories = $_GET['categories'];
+	$cat = null;
 		if (!empty($categories)) {
 		foreach ($categories as $category) {
 			$cat .= $category.','; 
 			}
 			 $cat = ltrim($cat);
-			}
-		
-	
-		
+			}	
 	}
 	
 	$args = array(
@@ -163,39 +144,17 @@ function fds_result_generator(){
 		'post_type' => 'post'
 	);
 	$data="";
-	$filter_form = '<h4>Keyword: '.$keyword.'</h4>';
+	$filter_form = '';
 	$filter_form .= '<style type="text/css">
-button.select2-selection__clear{
-	background-color:transparent !important;
-}
-.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
-  padding-left: 25px;
-}
-.select2-container .select2-search--inline {
-    margin-top: -35px;
-}
-.select2-container .select2-search--inline .select2-search__field{
-	height:auto;
-}
-footer .mom-select select{
-margin-left:0px;
-}
 	</style>
 	<div>
 	<form method="get" target="_blank" class="advsrch_form" action="'. get_option('fds_search_option') .'">
 	<div>
-		<div><label class="advsrch_lbl" style="font-size:20px;>Enter Keyword: </label></div>
+		<div><label class="advsrch_lbl" style="font-size:20px;">Enter Keyword: </label></div>
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$keyword.'"></div>
 	</div>
 	<div style="margin-top:10px">
-			
-		
-			 
-		      <select class="fds-select" name="categories[]" multiple="multiple">
-		        <option></option>
-		      
-		     
-	';
+		<select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-live-search="true">';
 	$args = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
@@ -244,14 +203,16 @@ margin-left:0px;
 $filter_form .= "<div style='clear:both'></div>";
 $filter_form .= '<script type="text/javascript">
 			(function($) {
-					$(".fds-select").select2({
-    placeholder: "Select Categories",
-    allowClear: true,
-    width: "resolve"
-});
+					$(".fds-select").selectpicker();
 			})( jQuery );
 </script>';
 	$query = new WP_Query($args);
+
+
+
+
+
+
 		$posts = $query->posts;
 		foreach($posts as $post) {
 		  $data .= '<div class="bp-vertical-share" style="width:100%">
@@ -286,16 +247,19 @@ $filter_form .= '<script type="text/javascript">
 								</div> 
 								</div> 
 								<div class="clear"></div>
-								</div>';
+								</div>';	
 		}
+
 		if (empty($data)) {
 			$data ="<h3>No Data Found.</h3>";
 		}
+		
 		wp_reset_postdata();
 	
 		return $filter_form.$data;
 	}
 }
+
 add_shortcode('fds-search-result','fds_result_generator');
 	 function fds_add_admin_pages() {
 			add_options_page('FDS Search Settings', 'FDS Search settings', 'manage_options', 'fds-search-settings', 'fds_admin_index' );
