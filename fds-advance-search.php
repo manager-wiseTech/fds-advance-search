@@ -4,7 +4,7 @@
 Plugin Name: FDS Advance Search
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This is advance search plugin.
-Version: 1.0.7
+Version: 1.0.8
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
@@ -76,7 +76,7 @@ $content .='<style type="text/css">
     width:-webkit-fill-available;
     }
     /* This is pagination styling*/
-    .active{
+    .active-page{
     	background-color: #0d6efd;
     	color: white;
     }
@@ -132,7 +132,7 @@ $content .= '<script type="text/javascript">
 					$(".fds-select").selectpicker();
 
 					$(".page-numbers").addClass("page-link");
-					$(".current").addClass("active");
+					$(".current").addClass("active-page");
 			})( jQuery );
 			
 </script>';
