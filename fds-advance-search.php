@@ -35,7 +35,6 @@ function callback_for_setting_up_scripts() {
     wp_enqueue_style( 'selectcss' );
     wp_enqueue_script( 'bootstrapjs', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js', array( 'jquery' ) );
     wp_enqueue_script( 'selectjs', 'https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js', array( 'jquery' ) );
-    
 }
 add_action("admin_menu","fds_advance_search");
 function fds_advance_search()
@@ -66,9 +65,6 @@ function fds_set_first_post_image($post) {
 function fds_form_creation($atts){
 	$content = NULL;
 $content .='<style type="text/css">
-.mom-select{
-    display:none;
-    }
     .dropdown-menu .inner{
     	width:auto;
     }
@@ -164,10 +160,7 @@ function fds_result_generator(){
 	$data="";
 	$filter_form = '';
 	$filter_form .= '<style type="text/css">
-	.mom-select{
-    display:none;
-    }
-    .dropdown-menu .inner{
+.dropdown-menu .inner{
     	width:auto;
     }
     .bs-searchbox .form-control{
