@@ -68,6 +68,9 @@ $content .='<style type="text/css">
     .dropdown-menu .inner{
     	width:auto;
     }
+    .mom-select{
+    display:none;
+    }
     .bs-searchbox .form-control{
     width:-webkit-fill-available;
     }
@@ -163,6 +166,9 @@ function fds_result_generator(){
 .dropdown-menu .inner{
     	width:auto;
     }
+    .mom-select{
+display:none;
+}
     .bs-searchbox .form-control{
     width:-webkit-fill-available;
     }
