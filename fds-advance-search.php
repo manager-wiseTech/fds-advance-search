@@ -4,7 +4,7 @@
 Plugin Name: FDS Advance Search
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This is advance search plugin.
-Version: 1.1.0
+Version: 1.2.0
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
@@ -29,12 +29,12 @@ defined( 'ABSPATH' ) or die( 'Hey, what are you doing here? You silly human!' );
 //adding styles and sript of select2
 add_action('wp_enqueue_scripts', 'callback_for_setting_up_scripts');
 function callback_for_setting_up_scripts() {
-    wp_register_style( 'selectcss', 'https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css' );
-    wp_register_style( 'bootstrapcss', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css' );
-    wp_enqueue_style( 'bootstrapcss' );
-    wp_enqueue_style( 'selectcss' );
-    wp_enqueue_script( 'bootstrapjs', 'https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js', array( 'jquery' ) );
-    wp_enqueue_script( 'selectjs', 'https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js', array( 'jquery' ) );
+    wp_register_style( 'fds-selectcss', plugin_dir_url(__FILE__).'css/bootstrap-select.min.css' );
+    wp_register_style( 'fds-bootstrapcss', plugin_dir_url(__FILE__).'css/bootstrap.min.css' );
+    wp_enqueue_style( 'fds-bootstrapcss' );
+    wp_enqueue_style( 'fds-selectcss' );
+    wp_enqueue_script( 'fds-bootstrapjs', plugin_dir_url(__FILE__).'js/bootstrap.bundle.min.js', array( 'jquery' ) );
+    wp_enqueue_script( 'fds-selectjs', plugin_dir_url(__FILE__).'js/bootstrap-select.min.js', array( 'jquery' ) );
 }
 add_action("admin_menu","fds_advance_search");
 function fds_advance_search()
