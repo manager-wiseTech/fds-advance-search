@@ -33,8 +33,11 @@ function callback_for_setting_up_scripts() {
     wp_register_style( 'fds-bootstrapcss', plugin_dir_url(__FILE__).'css/bootstrap.min.css' );
     wp_enqueue_style( 'fds-bootstrapcss' );
     wp_enqueue_style( 'fds-selectcss' );
+	
     wp_enqueue_script( 'fds-bootstrapjs', plugin_dir_url(__FILE__).'js/bootstrap.bundle.min.js', array( 'jquery' ) );
     wp_enqueue_script( 'fds-selectjs', plugin_dir_url(__FILE__).'js/bootstrap-select.min.js', array( 'jquery' ) );
+	wp_script_add_data( 'fds-bootstrapjs', 'async' , true );
+	wp_script_add_data( 'fds-selectjs', 'async' , true );
 }
 add_action("admin_menu","fds_advance_search");
 function fds_advance_search()
