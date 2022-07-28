@@ -4,7 +4,7 @@
 Plugin Name: FDS Advance Search
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This is advance search plugin.
-Version: 1.2.1
+Version: 1.2.2
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
@@ -33,14 +33,40 @@ function callback_for_setting_up_scripts() {
     wp_register_style( 'fds-bootstrapcss', plugin_dir_url(__FILE__).'css/bootstrap.min.css' );
     wp_enqueue_style( 'fds-bootstrapcss' );
     wp_enqueue_style( 'fds-selectcss' );
-	wp_style_add_data( 'fds-bootstrapcss', 'async', 'true' );
-	wp_style_add_data( 'fds-selectcss', 'async', 'true' );
     wp_enqueue_script( 'fds-bootstrapjs', plugin_dir_url(__FILE__).'js/bootstrap.bundle.min.js', array( 'jquery' ) );
     wp_enqueue_script( 'fds-selectjs', plugin_dir_url(__FILE__).'js/bootstrap-select.min.js', array( 'jquery' ) );
-	wp_script_add_data( 'fds-bootstrapjs', 'async' , true );
-	wp_script_add_data( 'fds-selectjs', 'async' , true );
 }
 add_action("admin_menu","fds_advance_search");
+
+// add async and defer attributes to enqueued scripts
+function fds_script_loader_tag($tag, $handle, $src) {
+	
+	if ( $handle === 'fds-bootstrapjs' || $handle === 'fds-selectjs') {
+		
+// 		if (false === stripos($tag, 'async')) {
+			
+// 			$tag = str_replace(' src', ' async="async" src', $tag);
+			
+// 		}
+		
+		if (false === stripos($tag, 'defer')) {
+			
+			$tag = str_replace('<script ', '<script defer ', $tag);
+			
+		}
+		
+	}
+	
+	
+	
+	return $tag;
+	
+}
+add_filter('script_loader_tag', 'fds_script_loader_tag', 10, 3);
+
+
+
+
 function fds_advance_search()
 {
 	add_menu_page("FDS Advance Search","FDS Advance Search","manage_options","fds-advance-search","fds_advance_search_menu_fn","dashicons-search");
