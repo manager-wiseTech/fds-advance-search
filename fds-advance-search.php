@@ -122,7 +122,7 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$default_key.'"></div>
 	</div>
 	<div class="mt-2">		    
-		      <select style="display:none;" class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
+		      <select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
 		    $args = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
@@ -210,7 +210,7 @@ display:none;
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$keyword.'"></div>
 	</div>
 	<div class="mt-2">
-		<select style="display:none;" class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
+		<select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
 	$args1 = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
