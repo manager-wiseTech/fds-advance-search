@@ -56,9 +56,6 @@ function fds_script_loader_tag($tag, $handle, $src) {
 		}
 		
 	}
-	
-	
-	
 	return $tag;
 	
 }
@@ -122,7 +119,7 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$default_key.'"></div>
 	</div>
 	<div class="mt-2">		    
-		      <select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
+		      <select class="form-control selectpicker fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
 		    $args = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
@@ -158,8 +155,6 @@ $content .= '<form class="advsrch_form" method="get" target="_blank" action="'. 
 $content .= "<div style='clear:both'></div>";
 $content .= '<script type="text/javascript">
 (function($) {
-					$(".fds-select").selectpicker();
-
 					$(".page-numbers").addClass("page-link");
 					$(".current").addClass("active-page");
 			})( jQuery );
@@ -210,7 +205,7 @@ display:none;
 		<div><input style="width:100%;border-radius:4px;box-sizing: border-box;" type="text" name="srchbox" value="'.$keyword.'"></div>
 	</div>
 	<div class="mt-2">
-		<select class="form-control fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
+		<select class="form-control selectpicker fds-select" name="categories[]" multiple data-actions-box="true"title="Select Categories" data-selected-text-format="count > 3" data-container="body" data-live-search="true">';
 	$args1 = array(
 			    'orderby' => 'name',
 			    'hierarchical' => 1,
@@ -265,18 +260,7 @@ display:none;
 	</div>
 </form></div>';
 $filter_form .= "<div style='clear:both'></div>";
-$filter_form .= '<script type="text/javascript">
-			(function($) {
-					$(".fds-select").selectpicker();
-			})( jQuery );
-</script>';
 	$query = new WP_Query($args);
-
-
-
-
-
-
 		$posts = $query->posts;
 		if (!empty($posts)) {
 			$data = '<div class="container">';
@@ -315,23 +299,7 @@ $filter_form .= '<script type="text/javascript">
 								</div> 
 								</div> 
 								<div class="clear"></div>
-								
-
-				
-
-
-
-
-
-
-
-
-
-
-
-
-								
-								</div>';	
+								</div>';
 		}
 		if (!empty($posts)) {
 			$data .= '<div>
